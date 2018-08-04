@@ -4,11 +4,17 @@ import (
 	"net/http"
 	"fmt"
 	"html"
+	"github.com/gorilla/mux"
 	"google.golang.org/appengine"
 )
 
+func init() {
+	r := mux.NewRouter()
+	r.HandleFunc("/", Index).Methods("GET")
+	http.Handle("/", r)
+}
+
 func main() {
-	http.HandleFunc("/", Index)
 	appengine.Main()
 }
 
