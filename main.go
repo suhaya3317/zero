@@ -3,14 +3,15 @@ package main
 import (
 	"net/http"
 	"fmt"
-	"html"
 	"github.com/gorilla/mux"
 	"google.golang.org/appengine"
 )
 
 func init() {
-	r := mux.NewRouter()
+	r := mux.NewRouter().StrictSlash(true)
 	r.HandleFunc("/", Index).Methods("GET")
+	r.HandleFunc("/posts", PostIndex).Methods("GET")
+	r.HandleFunc("/posts/{postId}", PostShow)
 	http.Handle("/", r)
 }
 
@@ -19,5 +20,15 @@ func main() {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
+	fmt.Fprintln(w, "Welcome!")
+}
+
+func PostIndex(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "Post Index!")
+}
+
+func PostShow(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	postId := vars["postId"]
+	fmt.Fprintln(w, "Post show:", postId)
 }
