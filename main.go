@@ -1,11 +1,20 @@
 package main
 
 import (
-	"net/http"
+	"encoding/json"
 	"fmt"
+	"net/http"
+
 	"github.com/gorilla/mux"
 	"google.golang.org/appengine"
 )
+
+type Post struct {
+	Text  string `json:"text"`
+	Image string `json:"image"`
+}
+
+type Posts []Post
 
 func init() {
 	r := mux.NewRouter().StrictSlash(true)
@@ -24,7 +33,12 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostIndex(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Post Index!")
+	posts := Posts{
+		Post{Text: "First Tweet!", Image: "https://example.com/example.jpg"},
+		Post{Text: "Second Tweet!", Image: "https://example.com/example.png"},
+	}
+
+	json.NewEncoder(w).Encode(posts)
 }
 
 func PostShow(w http.ResponseWriter, r *http.Request) {
