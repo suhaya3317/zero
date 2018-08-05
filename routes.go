@@ -32,4 +32,16 @@ var routes = Routes{
 		"/posts/{postId}",
 		PostShow,
 	},
+	Route{
+		"UserIndex",
+		"GET",
+		"/users",
+		UserIndex,
+	},
+	Route{
+		"UserShow",
+		"GET",
+		"/users/{userId}",
+		UserShow,
+	},
 }

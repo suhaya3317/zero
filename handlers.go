@@ -29,3 +29,22 @@ func PostShow(w http.ResponseWriter, r *http.Request) {
 	postId := vars["postId"]
 	fmt.Fprintln(w, "Post show:", postId)
 }
+
+func UserIndex(w http.ResponseWriter, r *http.Request) {
+	users := Users{
+		User{Name: "Hayato Suzuki", Description: "「すはや」です。RubyとGoを書きます。"},
+		User{Name: "Hinako Sano", Description: "「最高のひなこ」発売中！"},
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(users); err != nil {
+		panic(err)
+	}
+}
+
+func UserShow(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	userId := vars["userId"]
+	fmt.Fprintln(w, "User show:", userId)
+}
